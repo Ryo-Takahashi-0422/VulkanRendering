@@ -1,0 +1,20 @@
+model/
+*.xls
+*.xlsx
+*.vs
+*.pdb
+VulkanRendering/x64
+EffekseerTexture/
+FBX/
+sponza/
+NoUse/
+ext/cy/
+
+# Visual Studio user-specific files
+*.vcxproj.user
+
+# Build directories
+x64/
+Debug/
+Release/
+.vs/
