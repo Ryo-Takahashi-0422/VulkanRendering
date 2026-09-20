@@ -4,7 +4,7 @@
 class TriangleApp : public ISampleApp
 {
 public:
-	virtual void OnInitialize() = 0;
-	virtual void OnDrawFrame() = 0;
-	virtual void OnCleanup() = 0;
+	virtual void OnInitialize() override {};
+	virtual void OnDrawFrame() override {};
+	virtual void OnCleanup() override {};
 };
