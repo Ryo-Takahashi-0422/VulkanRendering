@@ -21,7 +21,7 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance,
 	auto window = glfwCreateWindow(1280, 720, "HelloWindow", nullptr, nullptr);
 
 	// Vulkan‚Ì‰Šú‰»
-	auto& vulkanCtx = VulkanContext::Get();
+	auto& vulkanCtx = VulkanContext::GetInstance();
 	vulkanCtx.GetWindowSystemExtensions = [=](auto& extensionList) {
 		uint32_t extCount = 0;
 		const char** extensions = glfwGetRequiredInstanceExtensions(&extCount);

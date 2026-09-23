@@ -13,3 +13,4 @@
 #include <memory>
 #include <functional>
 #include <stdexcept>
+#include <sstream>
