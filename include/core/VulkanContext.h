@@ -1,11 +1,5 @@
 #pragma once
-#include <vulkan/vulkan.h>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <stdint.h>
-#include <string>
-#include <cstring>
+#include "pch.h"
 
 #include "core/CommandBuffer.h"
 
@@ -17,7 +11,7 @@ class VulkanContext
 {
 public:
 	static constexpr uint32_t MaxInflightFrames = 2;
-	static VulkanContext& Get();
+	static VulkanContext& GetInstance();
 
 	// 初期化
 	void Initialize(const char* appName, ISurfaceProvider* surfaceProvider);
@@ -76,7 +70,7 @@ public:
 	// Function Callback(s)
 	std::function<void(std::vector<const char*>&)> GetWindowSystemExtensions;
 
-	// オブジェクトに名前を設定する
+	// オブジェクトにデバッグ用の名前を設定する
 	void SetDebugObjectName(void* objectHandle, VkObjectType type, const char* name);
 
 private:
@@ -89,12 +83,24 @@ private:
 	void CreateLogicalDevice();
 	void CreateDebugMessenger();
 	void CreateCommandPool();
+	void CreateSycronizer();
 	void CreateDescriptorPool();
 	void CreateFrameContexts();
 	void DestroyFrameContexts();
 
 	void AdvanceFrame();
 	void BuildVkFeatures();
+
+	// Vulkanの構造体pNextを繋ぐ処理簡略化のためのテンプレート
+	template<typename T>
+	void BuildVkExtensionChain(T& last) {
+		last.pNext = nullptr;
+	}
+	template<typename T, typename U, typename ... Rest>
+	void BuildVkExtensionChain(T& current, U& next, Rest& ... rest) {
+		current.pNext = next;
+		BuildVkExtensionChain(next, rest ...);
+	}
 
 	ISurfaceProvider* m_surfaceProvider{};
 	VkInstance m_vkInstance{};
@@ -105,6 +111,8 @@ private:
 	uint32_t m_graphicsQueueFamilyIndex{};
 	uint32_t m_presentQueueFamilyIndex{};
 	VkCommandPool m_commandPool{};
+	VkFence m_fence{};
+	VkSemaphore m_semaphore{};
 	VkSurfaceKHR m_surface{};
 	VkPhysicalDeviceMemoryProperties m_memoryProperties{};
 	VkPhysicalDeviceProperties m_physicalDeviceProperties{};
