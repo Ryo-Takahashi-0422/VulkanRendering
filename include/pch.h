@@ -1,5 +1,5 @@
 #pragma once
-
+#define NOMINMAX
 #include <Windows.h>
 
 #define GLFW_INCLUDE_VULKAN
@@ -14,3 +14,4 @@
 #include <functional>
 #include <stdexcept>
 #include <sstream>
+#include <algorithm>

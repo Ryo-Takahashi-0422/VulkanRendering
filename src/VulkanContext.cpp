@@ -1,4 +1,6 @@
 #include "VulkanContext.h"
+#include "ISurfaceProvider.h"
+#include "Swapchain.h"
 
 /// <summary>
 /// 初期化
@@ -14,6 +16,23 @@ void VulkanContext::Initialize(const char* appName, ISurfaceProvider* surfacePro
 	CreateCommandPool();     // コマンドプールの作成
 	CreateDescriptorPool();  // ディスクリプタプールの作成
 	CreateSycronizer(); // フェンス、セマフォの作成
+}
+
+void VulkanContext::RecreateSwapchain() {
+	if (m_swapChain == nullptr) {
+		m_swapChain = std::make_unique<Swapchain>();
+	}
+
+	if (m_surface == VK_NULL_HANDLE) {
+		CreateSurface();
+	}
+
+	auto width = m_surfaceProvider->GetFramebufferWidth();
+	auto height = m_surfaceProvider->GetFramebufferHeight();
+	m_swapChain->Recreate(width, height);
+
+	DestroyFrameContexts();
+	CreateFrameContexts();
 }
 
 /// <summary>
@@ -246,6 +265,17 @@ void VulkanContext::CreateSycronizer() {
 	};
 
 	vkCreateSemaphore(m_vkDevice, &semaphoreCI, nullptr, &m_semaphore);
+}
+
+void VulkanContext::CreateSurface() {
+	m_surface = m_surfaceProvider->CreateSurface(m_vkInstance);
+
+	// グラフィックスキューはこのサーフェスへPresentを発行できるか
+	VkBool32 present = false;
+	vkGetPhysicalDeviceSurfaceSupportKHR(m_vkPhysicalDevice, m_graphicsQueueFamilyIndex, m_surface, &present);
+	if (present == VK_FALSE) {
+		throw std::runtime_error("not supported presentation");
+	}
 }
 
 /// <summary>

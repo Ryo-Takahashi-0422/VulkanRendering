@@ -33,6 +33,9 @@
     <ClInclude Include="include\GlfwDisplayWindow.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Swapchain.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GlfwDisplayWindow.cpp">

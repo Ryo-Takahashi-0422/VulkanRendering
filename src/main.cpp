@@ -3,6 +3,7 @@
 #include <TriangleApp.h>
 #include <Windows.h>
 #include <VulkanContext.h>
+#include <GLFWSurfaceProvider.h>
 
 int __stdcall wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -18,7 +19,8 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance,
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
 	// ウィンドウの作成
-	auto window = glfwCreateWindow(1280, 720, "HelloWindow", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(1280, 720, "Triangle", nullptr, nullptr);
+	GLFWSurfaceProvider surfaceProvider(window);
 
 	// Vulkanの初期化
 	auto& vulkanCtx = VulkanContext::GetInstance();
@@ -29,7 +31,10 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance,
 			extensionList.insert(extensionList.end(), extensions, extensions + extCount);
 		}
 	};
+	vulkanCtx.Initialize("Triangle", &surfaceProvider);
 
+	// スワップチェイン初期化
+	vulkanCtx.RecreateSwapchain();
 
 	// アプリケーションの初期化
 	TriangleApp theApp{};
