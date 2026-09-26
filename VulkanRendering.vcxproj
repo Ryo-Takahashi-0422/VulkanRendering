@@ -23,6 +23,7 @@
     <ClInclude Include="include\GlfwDisplayWindow.h" />
     <ClInclude Include="include\ISampleApp.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\Swapchain.h" />
     <ClInclude Include="include\TriangleApp.h" />
   </ItemGroup>
   <ItemGroup>
