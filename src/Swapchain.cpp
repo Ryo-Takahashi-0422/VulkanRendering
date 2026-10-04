@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Swapchain.h"
 
 bool Swapchain::Recreate(uint32_t newWidth, uint32_t newHeight) {
@@ -140,4 +141,76 @@ void Swapchain::DestroyFrameContext() {
 		vkDestroySemaphore(vkDevice, sem, nullptr);
 	}
 	m_presentSemaphoreList.clear();
+}
+
+/// <summary>
+/// 描画先を取得
+/// </summary>
+/// <returns></returns>
+VkResult Swapchain::AcquireNextImage() {
+	auto& vulkanCtx = VulkanContext::GetInstance();
+	auto vkDevice = vulkanCtx.GetVkDevice();
+
+	// プレゼンテーション完了待ちで使用するセマフォの取得
+	assert(!m_presentSemaphoreList.empty());
+	VkSemaphore acquireSemaphore = m_presentSemaphoreList.back();
+	m_presentSemaphoreList.pop_back();
+
+	auto result = vkAcquireNextImageKHR(vkDevice, m_swapChain, UINT64_MAX, acquireSemaphore, VK_NULL_HANDLE, &m_currentIndex);
+	if (result != VK_SUCCESS) {
+		m_presentSemaphoreList.push_back(acquireSemaphore);
+		return result;
+	}
+
+	// 前に使用していたものを置き換える
+	VkSemaphore oldSemaphore = m_frames[m_currentIndex].presentComplete;
+	if (oldSemaphore != VK_NULL_HANDLE) {
+		m_presentSemaphoreList.push_back(oldSemaphore);
+	}
+
+	m_frames[m_currentIndex].presentComplete = acquireSemaphore;
+	return result;
+}
+
+/// <summary>
+/// キュー投入
+/// </summary>
+/// <param name="queuePresent"></param>
+/// <returns></returns>
+VkResult Swapchain::QueuePresent(VkQueue queuePresent) {
+	VkPresentInfoKHR presentInfo{};
+	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	presentInfo.swapchainCount = 1;
+	presentInfo.pSwapchains = &m_swapChain;
+	presentInfo.pImageIndices = &m_currentIndex;
+	presentInfo.waitSemaphoreCount = 1;
+	presentInfo.pWaitSemaphores = &m_frames[m_currentIndex].renderComplete;
+
+	auto& vulkanCtx = VulkanContext::GetInstance();
+	auto result = vkQueuePresentKHR(queuePresent, &presentInfo);
+
+	return result;
+}
+
+VkSemaphore Swapchain::GetPresentCompleteSemaphore() const {
+	return m_frames[m_currentIndex].presentComplete;
+}
+VkSemaphore Swapchain::GetRenderCompleteSemaphore() const {
+	return m_frames[m_currentIndex].renderComplete;
+}
+
+void Swapchain::Cleanup() {
+	auto& vulkanCtx = VulkanContext::GetInstance();
+	auto vkDevice = vulkanCtx.GetVkDevice();
+	for (auto& view : m_imageViews) {
+		vkDestroyImageView(vkDevice, view, nullptr);
+	}
+
+	if (m_swapChain) {
+		vkDestroySwapchainKHR(vkDevice, m_swapChain, nullptr);
+		m_swapChain = VK_NULL_HANDLE;
+	}
+
+	m_images.clear();
+	m_imageViews.clear();
 }
