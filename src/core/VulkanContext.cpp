@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "VulkanContext.h"
 #include "ISurfaceProvider.h"
 #include "Swapchain.h"
@@ -177,6 +178,30 @@ void VulkanContext::CreateCommandPool() {
 }
 
 /// <summary>
+/// デバッグコールバック
+/// </summary>
+/// <param name="severity"></param>
+/// <param name="type"></param>
+/// <param name="pCallbackData"></param>
+/// <param name="pUserData"></param>
+/// <returns></returns>
+VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
+	VkDebugUtilsMessageSeverityFlagBitsEXT severity,
+	VkDebugUtilsMessageTypeFlagsEXT type,
+	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+	void* pUserData) {
+	std::stringstream ss;
+	ss << "[Validation Layer]" << pCallbackData->pMessage << std::endl;
+
+#if defined(WIN32)
+	OutputDebugStringA(ss.str().c_str());
+#else
+	std::cerr << ss.str();
+#endif
+	return VK_FALSE;
+}
+
+/// <summary>
 /// デバッグ機能を有効化
 /// </summary>
 void VulkanContext::CreateDebugMessenger() {
@@ -201,30 +226,6 @@ void VulkanContext::CreateDebugMessenger() {
 	}
 
 	m_pfnSetDebugUtilsObjectNameEXT = (PFN_vkSetDebugUtilsObjectNameEXT)vkGetInstanceProcAddr(m_vkInstance, "vkSetDebugUtilsObjectNameEXT");
-}
-
-/// <summary>
-/// デバッグコールバック
-/// </summary>
-/// <param name="severity"></param>
-/// <param name="type"></param>
-/// <param name="pCallbackData"></param>
-/// <param name="pUserData"></param>
-/// <returns></returns>
-VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
-	VkDebugUtilsMessageSeverityFlagBitsEXT severity,
-	VkDebugUtilsMessageTypeFlagsEXT type,
-	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-	void* pUserData) {
-	std::stringstream ss;
-	ss << "[Validation Layer]" << pCallbackData->pMessage << std::endl;
-
-#if defined(WIN32)
-	OutputDebugStringA(ss.str().c_str());
-#else
-	std::cerr << ss.str();
-#endif
-	return VK_FALSE;
 }
 
 /// <summary>
@@ -267,6 +268,9 @@ void VulkanContext::CreateSycronizer() {
 	vkCreateSemaphore(m_vkDevice, &semaphoreCI, nullptr, &m_semaphore);
 }
 
+/// <summary>
+/// サーフェスの作成
+/// </summary>
 void VulkanContext::CreateSurface() {
 	m_surface = m_surfaceProvider->CreateSurface(m_vkInstance);
 
@@ -276,6 +280,168 @@ void VulkanContext::CreateSurface() {
 	if (present == VK_FALSE) {
 		throw std::runtime_error("not supported presentation");
 	}
+}
+
+/// <summary>
+/// コマンドバッファの作成
+/// </summary>
+/// <returns></returns>
+std::shared_ptr<CommandBuffer> VulkanContext::CreateCommandBuffer() {
+	VkCommandBufferAllocateInfo commandAI{
+		.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
+		.commandPool = m_commandPool,
+		.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
+		.commandBufferCount = 1,
+	};
+
+	VkCommandBuffer commandBuffer{};
+	vkAllocateCommandBuffers(m_vkDevice, &commandAI, &commandBuffer);
+
+	return std::make_shared<CommandBuffer>(commandBuffer);
+}
+
+/// <summary>
+/// フレームコンテキスト(毎フレームに使用するデータ)の作成
+/// </summary>
+void VulkanContext::CreateFrameContexts() {
+	m_frameContext.resize(MaxInflightFrames);
+	for (auto& frame : m_frameContext) {
+		frame.commandBuffer = CreateCommandBuffer();
+		VkFenceCreateInfo fenceCI{
+			.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO,
+			.flags = VK_FENCE_CREATE_SIGNALED_BIT,
+		};
+
+		vkCreateFence(m_vkDevice, &fenceCI, nullptr, &frame.inflightFence);
+	}
+}
+
+/// <summary>
+/// 描画可能なスワップチェーンイメージの切り替え
+/// </summary>
+/// <returns></returns>
+VkResult VulkanContext::AcuireNextImage() {
+	auto* frame = GetCurrentFrameContext();
+	auto fence = frame->inflightFence;
+	vkWaitForFences(m_vkDevice, 1, &fence, VK_TRUE, UINT64_MAX);
+	
+	auto result = m_swapChain->AcquireNextImage();
+	if (result == VK_SUCCESS) {
+		vkResetFences(m_vkDevice, 1, &fence);
+	}
+	else if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+		// 最小化時の対策 0*0サイズの際に発生
+		//auto width = m_surfaceProvider->GetFramebufferWidth();
+		//auto height = m_surfaceProvider->GetFramebufferHeight();
+		//while (width == 0 || height == 0) {
+		//	// ウィンドウが復元されるまで待つ
+		//}
+	}
+	assert(result != VK_ERROR_DEVICE_LOST); // デバイスロスト状態ならここで停止
+	return result;
+}
+
+/// <summary>
+/// 現在のフレームコンテキストのコマンドを実行し、プレゼンテーションを実行
+/// 「Acquire → 描画 → Present」というGPU上の処理順序をSemaphoreで組み立て、
+/// さらにFenceでCPUとGPUの進行を同期している
+/// </summary>
+void VulkanContext::SubmitPresent() {
+	auto& frame = m_frameContext[GetCurrentFrameIndex()];
+
+	// presentCompleteSemがシグナル状態になるまで、GPUのどの段階を待たせるか
+	VkPipelineStageFlags waitStageMask = VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT;
+	VkSubmitInfo submitInfo{
+		.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO
+	};
+
+	// 本フレームで使用するセマフォを取得する
+	VkSemaphore renderCompleteSem = m_swapChain->GetRenderCompleteSemaphore();
+	VkSemaphore presentCompleteSem = m_swapChain->GetPresentCompleteSemaphore();
+
+	// このフレームで記録したGPUコマンドを取得
+	VkCommandBuffer commandBuffer = frame.commandBuffer->Get();
+
+	// サブミット情報の構築
+	submitInfo.commandBufferCount = 1;
+	submitInfo.pCommandBuffers = &commandBuffer;
+	// presentCompleteSem→待つ→CommandBuffer実行
+	// Swapchain Imageが使用可能になってから描画を開始するということ
+	submitInfo.pWaitDstStageMask = &waitStageMask;
+	submitInfo.waitSemaphoreCount = 1;
+	submitInfo.pWaitSemaphores = &presentCompleteSem;
+	// 描画終了時にSemaphoreをSignalする GPU描画完了→renderCompleteSem→Present可能
+	submitInfo.signalSemaphoreCount = 1;
+	submitInfo.pSignalSemaphores = &renderCompleteSem;
+
+	// GPUへ実行を依頼　vkWaitForFences()していたのはこのため
+	// frame.inflightFenceにより、このフレームのGPU処理が全部終わったらこのFenceをSignalするよう設定
+	auto result = vkQueueSubmit(m_graphicsQueue, 1, &submitInfo, frame.inflightFence);
+	assert(result != VK_ERROR_DEVICE_LOST); // デバイスロストなら停止
+
+	// 描画したSwapchain Imageを画面に表示するよう要求
+	// GraphicsQueueが既にpresentをサポートしていることはチェック済
+	// vkQueuePresentKHR(...)呼び出し中→renderCompleteSemを待つことで
+	// 描画完了→renderCompleteSem→Presentという順序を保証する
+	m_swapChain->QueuePresent(m_graphicsQueue);
+	AdvanceFrame();
+}
+
+void VulkanContext::AdvanceFrame() {
+	m_currentFrameIndex = (m_currentFrameIndex + 1) % MaxInflightFrames;
+}
+
+void VulkanContext::CreateDescriptorPool() {
+}
+
+void VulkanContext::DestroyFrameContexts() {
+	for (auto& frame : m_frameContext) {
+		vkDestroyFence(m_vkDevice, frame.inflightFence, nullptr);
+	}
+}
+
+void VulkanContext::Cleanup(){
+	// デバイスがアイドル状態になってから破棄処理を進める
+	vkDeviceWaitIdle(m_vkDevice);
+
+	DestroyFrameContexts();
+	vkDestroyCommandPool(m_vkDevice, m_commandPool, nullptr);
+
+	if (m_debugMessenger != VK_NULL_HANDLE)
+	{
+		auto func =
+			reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(
+				vkGetInstanceProcAddr(
+					m_vkInstance,
+					"vkDestroyDebugUtilsMessengerEXT"
+				)
+				);
+
+		if (func != nullptr)
+		{
+			func(
+				m_vkInstance,
+				m_debugMessenger,
+				nullptr
+			);
+		}
+		m_debugMessenger = VK_NULL_HANDLE;
+	}
+
+	if (m_swapChain) {
+		m_swapChain->Cleanup();
+		m_swapChain.reset();
+	}
+
+	if (m_surface != VK_NULL_HANDLE) {
+		vkDestroySurfaceKHR(m_vkInstance, m_surface, nullptr);
+		m_surface = VK_NULL_HANDLE;
+	}
+
+	vkDestroyDevice(m_vkDevice, nullptr);
+	vkDestroyInstance(m_vkInstance, nullptr);
+	m_vkDevice = VK_NULL_HANDLE;
+	m_vkInstance = VK_NULL_HANDLE;
 }
 
 /// <summary>

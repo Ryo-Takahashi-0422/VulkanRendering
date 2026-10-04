@@ -1,5 +1,4 @@
 #pragma once
-#include "pch.h"
 #include "ISurfaceProvider.h"
 #define GLFW_INCLUDE_VULKAN
 

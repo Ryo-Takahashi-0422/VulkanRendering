@@ -1,9 +1,9 @@
 #include "pch.h"
-#include <GlfwDisplayWindow.h>
-#include <TriangleApp.h>
+#include "GlfwDisplayWindow.h"
+#include "TriangleApp.h"
 #include <Windows.h>
-#include <VulkanContext.h>
-#include <GLFWSurfaceProvider.h>
+#include "core/VulkanContext.h"
+#include "GLFWSurfaceProvider.h"
 
 int __stdcall wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,

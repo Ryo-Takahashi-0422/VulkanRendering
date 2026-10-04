@@ -1,7 +1,7 @@
-#include "pch.h"
+#pragma once
 
 #include "core/VulkanContext.h"
-#include "core/SurfaceProvider.h"
+#include "ISurfaceProvider.h"
 
 class VulkanContext;
 class Swapchain {

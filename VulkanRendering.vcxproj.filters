@@ -16,6 +16,9 @@
     <Filter Include="include\core">
       <UniqueIdentifier>{35779e21-7faf-4ad7-b46d-fb875bf1090e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{98bee182-33b6-4247-9796-157cd9221ca7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ISampleApp.h">
@@ -36,6 +39,18 @@
     <ClInclude Include="include\Swapchain.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\ISurfaceProvider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLFWSurfaceProvider.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\CommandBuffer.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ImageLayoutTransition.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GlfwDisplayWindow.cpp">
@@ -44,10 +59,25 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\VulkanContext.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\GLFWSurfaceProvider.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Swapchain.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\VulkanContext.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\CommandBuffer.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TriangleApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImageLayoutTransition.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

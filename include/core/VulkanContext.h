@@ -1,5 +1,4 @@
 #pragma once
-#include "pch.h"
 
 #include "core/CommandBuffer.h"
 
@@ -59,7 +58,7 @@ public:
 	void SubmitAndWait(std::shared_ptr<CommandBuffer> commandBuffer);
 
 	// 現在フレームコンテキストの取得
-	FrameContext* GetCurrentFrameContext();
+	FrameContext* GetCurrentFrameContext() { return m_frameContext.data(); };
 
 	//スワップチェインの取得
 	std::unique_ptr<Swapchain>& GetSwapChain() { return m_swapChain; };
@@ -98,7 +97,7 @@ private:
 	}
 	template<typename T, typename U, typename ... Rest>
 	void BuildVkExtensionChain(T& current, U& next, Rest& ... rest) {
-		current.pNext = next;
+		current.pNext = &next;
 		BuildVkExtensionChain(next, rest ...);
 	}
 
