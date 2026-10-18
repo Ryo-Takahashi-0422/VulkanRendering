@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "VulkanContext.h"
-#include "ISurfaceProvider.h"
-#include "Swapchain.h"
+#include "core/ISurfaceProvider.h"
+#include "core/Swapchain.h"
 
 /// <summary>
 /// 初期化
@@ -385,6 +385,21 @@ void VulkanContext::SubmitPresent() {
 	// 描画完了→renderCompleteSem→Presentという順序を保証する
 	m_swapChain->QueuePresent(m_graphicsQueue);
 	AdvanceFrame();
+}
+/// <summary>
+///メモリタイプの取得
+/// </summary>
+uint32_t VulkanContext::FindMemoryType(const VkMemoryRequirements& requirements, VkMemoryPropertyFlags properties) const {
+	for (uint32_t i = 0; i < m_memoryProperties.memoryTypeCount; i++) {
+		const bool isTypeCompatible = (requirements.memoryTypeBits & (1 << i)) != 0;
+		const bool hasDesiredProperties = (m_memoryProperties.memoryTypes[i].propertyFlags & properties) == properties;
+		if (isTypeCompatible && hasDesiredProperties) {
+			// メモリプロパティを満たし、memoryTypeBitsに含まれている
+			return i;
+		}
+	}
+	
+	throw std::runtime_error("Failed to find subtable memory type!");
 }
 
 void VulkanContext::AdvanceFrame() {

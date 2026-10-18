@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/VulkanContext.h"
-#include "ImageLayoutTransition.h"
+#include "core/ImageLayoutTransition.h"
 
 class CommandBuffer
 {
