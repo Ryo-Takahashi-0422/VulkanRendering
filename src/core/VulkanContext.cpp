@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "VulkanContext.h"
-#include "ISurfaceProvider.h"
-#include "Swapchain.h"
+#include "core/ISurfaceProvider.h"
+#include "core/Swapchain.h"
 
 /// <summary>
 /// ‰Šú‰»

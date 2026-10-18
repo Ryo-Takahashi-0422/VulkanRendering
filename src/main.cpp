@@ -1,9 +1,8 @@
 #include "pch.h"
-#include "GlfwDisplayWindow.h"
 #include "TriangleApp.h"
 #include <Windows.h>
 #include "core/VulkanContext.h"
-#include "GLFWSurfaceProvider.h"
+#include "core/GLFWSurfaceProvider.h"
 #include "core/AssetPath.h"
 #include "core/ShaderLoader.h"
 

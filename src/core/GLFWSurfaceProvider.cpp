@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "GLFWSurfaceProvider.h"
+#include "core/GLFWSurfaceProvider.h"
 
 GLFWSurfaceProvider::GLFWSurfaceProvider(GLFWwindow* window)
 	: m_window(window)

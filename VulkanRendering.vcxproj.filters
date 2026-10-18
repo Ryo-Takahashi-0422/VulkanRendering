@@ -42,23 +42,8 @@
     <ClInclude Include="include\core\VulkanContext.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\GlfwDisplayWindow.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Swapchain.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ISurfaceProvider.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GLFWSurfaceProvider.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\core\CommandBuffer.h">
       <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ImageLayoutTransition.h">
-      <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\core\BufferResource.h">
       <Filter>include\core</Filter>
@@ -75,21 +60,24 @@
     <ClInclude Include="include\core\GraphicsPipelineBuilder.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\ImageLayoutTransition.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\ISurfaceProvider.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Swapchain.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\GLFWSurfaceProvider.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GlfwDisplayWindow.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GLFWSurfaceProvider.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Swapchain.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\core\VulkanContext.cpp">
@@ -99,9 +87,6 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\TriangleApp.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ImageLayoutTransition.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\core\BufferResource.cpp">
@@ -118,6 +103,15 @@
     </ClCompile>
     <ClCompile Include="src\core\GraphicsPipelineBuilder.cpp">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Swapchain.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ImageLayoutTransition.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GLFWSurfaceProvider.cpp">
+      <Filter>include\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

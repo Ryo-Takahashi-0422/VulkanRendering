@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "TriangleApp.h"
-#include "Swapchain.h"
-#include "ImageLayoutTransition.h"
+#include "core/Swapchain.h"
+#include "core/ImageLayoutTransition.h"
 #include "core/ShaderLoader.h"
 #include "core/AssetPath.h"
 
@@ -90,7 +90,7 @@ void TriangleApp::OnDrawFrame() {
 		.imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
 		.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR,
 		.storeOp = VK_ATTACHMENT_STORE_OP_STORE,
-		.clearValue = VkClearValue{.color = {0.5f, 0.2f, 0.3f, 1.0f} },
+		.clearValue = VkClearValue{.color = {0.4f, 0.3f, 0.3f, 1.0f} },
 	};
 	VkRenderingInfo renderingInfo{
 		.sType = VK_STRUCTURE_TYPE_RENDERING_INFO,
