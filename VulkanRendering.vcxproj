@@ -19,44 +19,41 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\core\AssetPath.h" />
-    <ClInclude Include="include\core\BufferResource.h" />
-    <ClInclude Include="include\core\CommandBuffer.h" />
-    <ClInclude Include="include\core\GLFWSurfaceProvider.h" />
-    <ClInclude Include="include\core\GpuResourceBase.h" />
-    <ClInclude Include="include\core\GraphicsPipelineBuilder.h" />
-    <ClInclude Include="include\core\ImageLayoutTransition.h" />
-    <ClInclude Include="include\core\ISurfaceProvider.h" />
-    <ClInclude Include="include\core\ShaderLoader.h" />
-    <ClInclude Include="include\core\Swapchain.h" />
-    <ClInclude Include="include\core\VulkanContext.h" />
-    <ClInclude Include="include\ISampleApp.h" />
-    <ClInclude Include="include\pch.h" />
-    <ClInclude Include="include\TriangleApp.h" />
+    <None Include="assets\shaders\triangle\triangle.frag" />
+    <None Include="assets\shaders\triangle\triangle.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\AssetPath.cpp" />
-    <ClCompile Include="src\core\BufferResource.cpp" />
-    <ClCompile Include="src\core\CommandBuffer.cpp" />
-    <ClCompile Include="src\core\GLFWSurfaceProvider.cpp" />
-    <ClCompile Include="src\core\GpuResourceBase.cpp" />
-    <ClCompile Include="src\core\GraphicsPipelineBuilder.cpp" />
-    <ClCompile Include="src\core\ImageLayoutTransition.cpp" />
-    <ClCompile Include="src\core\ShaderLoader.cpp" />
-    <ClCompile Include="src\core\Swapchain.cpp" />
-    <ClCompile Include="src\core\VulkanContext.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\pch.cpp">
+    <ClCompile Include="lib\core\AssetPath.cpp" />
+    <ClCompile Include="lib\core\BufferResource.cpp" />
+    <ClCompile Include="lib\core\CommandBuffer.cpp" />
+    <ClCompile Include="lib\core\GLFWSurfaceProvider.cpp" />
+    <ClCompile Include="lib\core\GpuResourceBase.cpp" />
+    <ClCompile Include="lib\core\GraphicsPipelineBuilder.cpp" />
+    <ClCompile Include="lib\core\ImageLayoutTransition.cpp" />
+    <ClCompile Include="lib\core\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\TriangleApp.cpp" />
+    <ClCompile Include="lib\core\ShaderLoader.cpp" />
+    <ClCompile Include="lib\core\Swapchain.cpp" />
+    <ClCompile Include="lib\core\VulkanContext.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\triangle\triangle.frag" />
-    <None Include="assets\shaders\triangle\triangle.vert" />
+    <ClInclude Include="lib\core\AssetPath.h" />
+    <ClInclude Include="lib\core\BufferResource.h" />
+    <ClInclude Include="lib\core\CommandBuffer.h" />
+    <ClInclude Include="lib\core\GLFWSurfaceProvider.h" />
+    <ClInclude Include="lib\core\GpuResourceBase.h" />
+    <ClInclude Include="lib\core\GraphicsPipelineBuilder.h" />
+    <ClInclude Include="lib\core\ImageLayoutTransition.h" />
+    <ClInclude Include="lib\core\ISampleApp.h" />
+    <ClInclude Include="lib\core\ISurfaceProvider.h" />
+    <ClInclude Include="lib\core\pch.h" />
+    <ClInclude Include="lib\core\ShaderLoader.h" />
+    <ClInclude Include="lib\core\Swapchain.h" />
+    <ClInclude Include="lib\core\VulkanContext.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

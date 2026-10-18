@@ -5,20 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="include">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="include\core">
-      <UniqueIdentifier>{35779e21-7faf-4ad7-b46d-fb875bf1090e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\core">
-      <UniqueIdentifier>{98bee182-33b6-4247-9796-157cd9221ca7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="aseets">
       <UniqueIdentifier>{3fc4769c-5ffb-48f3-9ac5-8a926e26c249}</UniqueIdentifier>
     </Filter>
@@ -28,91 +14,12 @@
     <Filter Include="aseets\shaders\triangle">
       <UniqueIdentifier>{6e218fb0-5583-40cf-bbff-4d4014bbfeac}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\ISampleApp.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TriangleApp.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\pch.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\VulkanContext.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\CommandBuffer.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\BufferResource.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\GpuResourceBase.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\AssetPath.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\ShaderLoader.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\GraphicsPipelineBuilder.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\ImageLayoutTransition.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\ISurfaceProvider.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\Swapchain.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\GLFWSurfaceProvider.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\pch.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\VulkanContext.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\CommandBuffer.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TriangleApp.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\BufferResource.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\GpuResourceBase.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\AssetPath.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\ShaderLoader.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\GraphicsPipelineBuilder.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\Swapchain.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\ImageLayoutTransition.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\GLFWSurfaceProvider.cpp">
-      <Filter>include\core</Filter>
-    </ClCompile>
+    <Filter Include="lib">
+      <UniqueIdentifier>{0a8ca5a7-3eca-496e-878a-35f33698391f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\core">
+      <UniqueIdentifier>{b0e2fd24-7cd4-4483-ac79-2f1f1c182fed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\triangle\triangle.vert">
@@ -121,5 +28,81 @@
     <None Include="assets\shaders\triangle\triangle.frag">
       <Filter>aseets\shaders\triangle</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lib\core\AssetPath.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\BufferResource.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\CommandBuffer.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\GLFWSurfaceProvider.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\GpuResourceBase.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\GraphicsPipelineBuilder.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\ImageLayoutTransition.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\pch.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\ShaderLoader.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\Swapchain.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\VulkanContext.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lib\core\AssetPath.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\BufferResource.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\CommandBuffer.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\GLFWSurfaceProvider.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\GpuResourceBase.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\GraphicsPipelineBuilder.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\ImageLayoutTransition.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\ISampleApp.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\ISurfaceProvider.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\pch.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\ShaderLoader.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\Swapchain.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\VulkanContext.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

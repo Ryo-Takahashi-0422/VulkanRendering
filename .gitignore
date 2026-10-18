@@ -1,20 +1,25 @@
-model/
-*.xls
-*.xlsx
-*.vs
-*.pdb
-VulkanRendering/x64
-EffekseerTexture/
-FBX/
-sponza/
-NoUse/
-ext/cy/
+# 中間成果物・ビルド生成物
+/out/
+/build/
+/bin/
 
-# Visual Studio user-specific files
-*.vcxproj.user
+# コンパイル済みシェーダー
+/assets/shaders/**/*.spv
 
-# Build directories
-x64/
-Debug/
-Release/
+# Visual Studio
 .vs/
+
+# Visual Studio build outputs
+VulkanRendering/x64/
+x64/
+**/Debug/
+**/Release/
+.vs/
+*.obj
+*.pch
+*.pdb
+*.ilk
+*.exe
+*.recipe
+*.tlog/
+*.vcxproj.user
