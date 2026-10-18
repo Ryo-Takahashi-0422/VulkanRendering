@@ -24,7 +24,7 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance,
 	GetModuleFileNameW(nullptr, exePath, MAX_PATH);
 	std::filesystem::path exeDir = std::filesystem::path(exePath).parent_path();
 	SetCurrentDirectoryW(exeDir.c_str());
-	std::filesystem::path assetDir = exeDir / "../../assets";
+	std::filesystem::path assetDir = exeDir / "../assets";
 	SetAssetRootPath(assetDir);
 
 	// ウィンドウの作成
