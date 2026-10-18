@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,7 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\core\AssetPath.h" />
+    <ClInclude Include="include\core\BufferResource.h" />
     <ClInclude Include="include\core\CommandBuffer.h" />
+    <ClInclude Include="include\core\GpuResourceBase.h" />
+    <ClInclude Include="include\core\GraphicsPipelineBuilder.h" />
+    <ClInclude Include="include\core\ShaderLoader.h" />
     <ClInclude Include="include\core\VulkanContext.h" />
     <ClInclude Include="include\GlfwDisplayWindow.h" />
     <ClInclude Include="include\GLFWSurfaceProvider.h" />
@@ -31,7 +36,12 @@
     <ClInclude Include="include\TriangleApp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\AssetPath.cpp" />
+    <ClCompile Include="src\core\BufferResource.cpp" />
     <ClCompile Include="src\core\CommandBuffer.cpp" />
+    <ClCompile Include="src\core\GpuResourceBase.cpp" />
+    <ClCompile Include="src\core\GraphicsPipelineBuilder.cpp" />
+    <ClCompile Include="src\core\ShaderLoader.cpp" />
     <ClCompile Include="src\core\VulkanContext.cpp" />
     <ClCompile Include="src\GlfwDisplayWindow.cpp" />
     <ClCompile Include="src\GLFWSurfaceProvider.cpp" />
@@ -45,6 +55,10 @@
     </ClCompile>
     <ClCompile Include="src\Swapchain.cpp" />
     <ClCompile Include="src\TriangleApp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\triangle\triangle.frag" />
+    <None Include="assets\shaders\triangle\triangle.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

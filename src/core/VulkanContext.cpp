@@ -386,6 +386,21 @@ void VulkanContext::SubmitPresent() {
 	m_swapChain->QueuePresent(m_graphicsQueue);
 	AdvanceFrame();
 }
+/// <summary>
+///メモリタイプの取得
+/// </summary>
+uint32_t VulkanContext::FindMemoryType(const VkMemoryRequirements& requirements, VkMemoryPropertyFlags properties) const {
+	for (uint32_t i = 0; i < m_memoryProperties.memoryTypeCount; i++) {
+		const bool isTypeCompatible = (requirements.memoryTypeBits & (1 << i)) != 0;
+		const bool hasDesiredProperties = (m_memoryProperties.memoryTypes[i].propertyFlags & properties) == properties;
+		if (isTypeCompatible && hasDesiredProperties) {
+			// メモリプロパティを満たし、memoryTypeBitsに含まれている
+			return i;
+		}
+	}
+	
+	throw std::runtime_error("Failed to find subtable memory type!");
+}
 
 void VulkanContext::AdvanceFrame() {
 	m_currentFrameIndex = (m_currentFrameIndex + 1) % MaxInflightFrames;

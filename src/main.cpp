@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include "core/VulkanContext.h"
 #include "GLFWSurfaceProvider.h"
+#include "core/AssetPath.h"
+#include "core/ShaderLoader.h"
 
 int __stdcall wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -17,6 +19,14 @@ int __stdcall wWinMain(_In_ HINSTANCE hInstance,
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+	// アセットのルートパスを設定
+	wchar_t exePath[MAX_PATH];
+	GetModuleFileNameW(nullptr, exePath, MAX_PATH);
+	std::filesystem::path exeDir = std::filesystem::path(exePath).parent_path();
+	SetCurrentDirectoryW(exeDir.c_str());
+	std::filesystem::path assetDir = exeDir / "../../assets";
+	SetAssetRootPath(assetDir);
 
 	// ウィンドウの作成
 	GLFWwindow* window = glfwCreateWindow(1280, 720, "Triangle", nullptr, nullptr);

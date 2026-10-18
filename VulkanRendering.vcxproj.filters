@@ -19,6 +19,15 @@
     <Filter Include="src\core">
       <UniqueIdentifier>{98bee182-33b6-4247-9796-157cd9221ca7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="aseets">
+      <UniqueIdentifier>{3fc4769c-5ffb-48f3-9ac5-8a926e26c249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aseets\shaders">
+      <UniqueIdentifier>{af69f896-0265-436a-8d30-0015cabf43e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aseets\shaders\triangle">
+      <UniqueIdentifier>{6e218fb0-5583-40cf-bbff-4d4014bbfeac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ISampleApp.h">
@@ -51,6 +60,21 @@
     <ClInclude Include="include\ImageLayoutTransition.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\BufferResource.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\GpuResourceBase.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\AssetPath.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\ShaderLoader.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\GraphicsPipelineBuilder.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GlfwDisplayWindow.cpp">
@@ -80,5 +104,28 @@
     <ClCompile Include="src\ImageLayoutTransition.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\BufferResource.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GpuResourceBase.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\AssetPath.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ShaderLoader.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GraphicsPipelineBuilder.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\triangle\triangle.vert">
+      <Filter>aseets\shaders\triangle</Filter>
+    </None>
+    <None Include="assets\shaders\triangle\triangle.frag">
+      <Filter>aseets\shaders\triangle</Filter>
+    </None>
   </ItemGroup>
 </Project>
