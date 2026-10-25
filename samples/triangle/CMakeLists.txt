@@ -13,7 +13,7 @@ set(SHADER_FRAG ${SHADER_DIR}/triangle.frag)
 compile_shader(${SHADER_VERT} COMPILED_VERT)
 compile_shader(${SHADER_FRAG} COMPILED_FRAG)
 
-# 共通コアのソース・ヘッダー
+# 共通コアのヘッダー・ソース
 file(GLOB CORE_HEADERS CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/lib/core/*.h
 )
@@ -21,7 +21,7 @@ file(GLOB CORE_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/lib/core/*.cpp
 )
 
-# サンプル側のソース・ヘッダー
+# サンプル側のヘッダー・ソースを取得する
 file(GLOB SAMPLE_APP_HEADERS CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/*.h
 )
@@ -29,7 +29,7 @@ file(GLOB SAMPLE_APP_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
 )
 
-# Visual Studio のフィルター
+# Visual Studioのフィルター(CMAKEターゲットビュー向け設定)
 source_group("App/Sources Files" FILES ${SAMPLE_APP_SOURCES})
 source_group("App/Header Files" FILES ${SAMPLE_APP_HEADERS})
 source_group("Shaders" FILES ${SHADER_VERT} ${SHADER_FRAG})

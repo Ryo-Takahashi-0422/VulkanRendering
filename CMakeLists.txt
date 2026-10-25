@@ -1,15 +1,24 @@
 cmake_minimum_required(VERSION 3.25)
-project(VulkanPracticalGuideSamples)
+project(VulkanSamples)
 
+# C++20を使用
 set(CMAKE_CXX_STANDARD 20)
+
+# コンパイルに使用するコマンドの情報を compile_commands.json というファイルに出力する
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# 実行ファイルなどのランタイム成果物を出力するディレクトリを指定
+# ${CMAKE_SOURCE_DIR}はCMakeプロジェクトの最上位にあるソースディレクトリのパス
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
+# ビルドターゲットをVisual Studioのソリューション内でフォルダ分けして表示する
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Vulkanの開発環境を探し、プロジェクトから利用できるようにする
 find_package(Vulkan REQUIRED)
 
-
+# FetchContentモジュールにより、外部プロジェクトのソースコードを取得し、
+# 現在のCMakeプロジェクトに組み込むためのコマンドなどを利用可能とする(..._Declareなど)
 include(FetchContent)
 
 # GLFW を自動で取得・ビルド
@@ -18,6 +27,8 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
+# 取得する依存ライブラリを宣言する
+# GLFW : ウィンドウ管理・入力処理
 FetchContent_Declare(
     glfw
     GIT_REPOSITORY https://github.com/glfw/glfw.git
@@ -25,7 +36,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glfw)
 
-# STB 
+# STB  : 画像などの読み込み・処理
 FetchContent_Declare(
     stb
     GIT_REPOSITORY https://github.com/nothings/stb.git
@@ -33,7 +44,8 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(stb)
 
-# GLM (Vulkan SDKと同じ場所のものは使用せず、本サンプル用に固定)
+# GLM (OpenGL Mathematics *Vulkan SDKと同じ場所のものは使用せず、本サンプル用に固定)
+#  : 数学計算
 FetchContent_Declare(
     glm
     GIT_REPOSITORY https://github.com/g-truc/glm.git
@@ -41,7 +53,8 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
-# VOLK (Vulkan SDKと同じ場所のものは使用せず、本サンプル用に固定)
+# VOLK (*Vulkan SDKと同じ場所のものは使用せず、本サンプル用に固定)
+#  : Vulkan関数の動的ロード
 FetchContent_Declare(
     volk
     GIT_REPOSITORY https://github.com/zeux/volk.git
@@ -50,7 +63,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(volk)
 
-# Assimp
+# Assimp(Open Asset Import Library) : 3Dモデルの読み込み
 if(NOT UNIX)
   include(FetchContent)
   FetchContent_Declare(
@@ -72,6 +85,7 @@ if(NOT UNIX)
   FetchContent_MakeAvailable(assimp)
 endif()
 
+# samplesディレクトリにあるCMakeLists.txt を読み込み、そのディレクトリのビルド設定を現在のプロジェクトに追加する
 add_subdirectory(samples)
 
 # スタートアッププロジェクト
